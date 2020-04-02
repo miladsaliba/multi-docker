@@ -14,8 +14,8 @@ after_success:
     - docker build -t miladsaliba/multi-server ./server    
     - docker build -t miladsaliba/multi-worker ./worker
 
-    - echo "DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password--stdin
-    
+    - echo "DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password-stdin
+
     - docker push miladsaliba/multi-client
     - docker push miladsaliba/multi-nginx
     - docker push miladsaliba/multi-server
