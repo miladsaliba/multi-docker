@@ -1,0 +1,28 @@
+sudo:required
+services:
+    - docker
+
+before_install:
+    - docker build -t miladsaliba/react-tests -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run miladsaliba/react-tests npm test -- --coverage
+
+after_success:
+    - docker build -t miladsaliba/multi-client ./client
+    - docker build -t miladsaliba/multi-nginx ./nginx
+    - docker build -t miladsaliba/multi-server ./server    
+    - docker build -t miladsaliba/multi-worker ./worker
+
+    - echo "DOCKER_PASSWORD" | docker login -u "$DOCKER_ID"  --password--stdin
+    - docker push miladsaliba/multi-client
+    - docker push miladsaliba/multi-nginx
+    - docker push miladsaliba/multi-server
+    - docker push miladsaliba/multi-worker
+    
+
+
+
+
+
+
